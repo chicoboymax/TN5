@@ -6,24 +6,12 @@
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Grille {
 
-	public static void main(String[] args){
-		int[][] grille = { { 0, 6, 0, 1, 0, 4, 0, 5, 0 },
-				{ 0, 0, 8, 3, 0, 5, 6, 0, 0 }, { 2, 0, 0, 0, 0, 0, 0, 0, 1 },
-				{ 8, 0, 0, 4, 0, 7, 0, 0, 6 }, { 0, 0, 6, 0, 0, 0, 3, 0, 0 },
-				{ 7, 0, 0, 9, 0, 1, 0, 0, 4 }, { 5, 0, 0, 0, 0, 0, 0, 0, 2 },
-				{ 0, 0, 7, 2, 0, 6, 9, 0, 0 }, { 0, 4, 0, 5, 0, 8, 0, 7, 0 } };
-		
-		ArrayList<Integer> grid = grilleToArrayList(grille);
-		
-		Grille sudoku = new Grille(grid);
-		sudoku.imprimerGrille();
-	}
 	private int[][] grid;
 	private int taille;
+
 
 	/*********************************************************************************/
 	/*
@@ -31,18 +19,15 @@ public class Grille {
 	 * 
 	 */
 	/*********************************************************************************/
-	public Grille(ArrayList<Integer> al) {
+	public Grille(ArrayList<Case> al) {
 		this.setTaille(al.size());
 		this.grid = new int[taille][taille];
-		int row = 0;
-		int col = 0;
-		for (int i : al) {
-			grid[row][col] = i;
-			col++;
-			if (col >= taille) {
-				col = 0;
-				row++;
-			}
+		for (Case i : al) {
+			int ligne = i.getLigne();
+			int colonne = i.getColonne();
+			int valeur = i.getValeur();
+			grid[ligne][colonne] = valeur;
+
 		}
 	}
 
@@ -52,11 +37,13 @@ public class Grille {
 	 * 
 	 */
 	/*********************************************************************************/
-	public static ArrayList<Integer> grilleToArrayList(int[][] grille) {
-		ArrayList<Integer> al = new ArrayList<Integer>();
-		for (int row = 0; row < grille.length; row++) {
-			for (int col = 0; col < grille[row].length; col++) {
-				al.add(grille[row][col]);
+	public static ArrayList<Case> grilleToArrayList(int[][] grille) {
+		ArrayList<Case> al = new ArrayList<>();
+		for (int ligne = 0; ligne < grille.length; ligne++) {
+			for (int colonne = 0; colonne < grille[ligne].length; colonne++) {
+				Case placement = new Case(ligne, colonne,
+						grille[ligne][colonne]);
+				al.add(placement);
 			}
 		}
 		return al;
@@ -117,37 +104,88 @@ public class Grille {
 	 * 
 	 */
 	/*********************************************************************************/
-	public void imprimerGrille() {
-		final String LINE = "------------------------\n";
-		StringBuilder sb = new StringBuilder();
+	public boolean validerPlacement(int valeur, int ligne, int colonne) {
+		if (estSurLigne(valeur, ligne) || estSurColonne(valeur, colonne)
+				|| estDansLeBloc(valeur, ligne, colonne)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-		sb.append(LINE);
+	/*********************************************************************************/
+	/*
+	 * 
+	 * 
+	 */
+	/*********************************************************************************/
+	public void imprimerGrille() {
+		final String ligne = "------------------------\n";
+		StringBuilder sb = new StringBuilder();
+		sb.append(ligne);
 		for (int i = 0; i < grid.length; i++) {
 			if (i == 3 || i == 6) {
-				sb.append(LINE);
+				sb.append(ligne);
 			}
-			sb.append("|");
+			if (i < 9) {
+				sb.append("|");
+			}
 			for (int j = 0; j < grid[i].length; j += 3) {
 				for (int kj = j; kj < j + 3; kj += 1) {
-					if (grid[i][kj] != 0)
+					if (grid[i][kj] != 0) {
 						sb.append(grid[i][kj]);
-					else
+					} else {
 						sb.append(" ");
-					sb.append(" ");
+						sb.append(" ");
+					}
 				}
-				sb.append("| ");
+				if (j < 9) {
+					sb.append("| ");
+				}
 			}
-			sb.append("\n");
+			if (i < 9) {
+				sb.append("\n");
+			}
+			if (i == 8) {
+				sb.append(ligne);
+			}
 		}
+
 		System.out.println(sb);
-		sb.append(LINE);
 	}
+
+	/*********************************************************************************/
+	/*
+	 * 
+	 * 
+	 */
+	/*********************************************************************************/
+
+	public void fairePlacement(int valeur, int ligne, int colonne) {
+		if (validerPlacement(valeur, ligne, colonne)) {
+			this.grid[ligne][colonne] = valeur;
+		}
+	}
+
+	/*********************************************************************************/
+	/*
+	 * 
+	 * 
+	 */
+	/*********************************************************************************/
 
 	public int getTaille() {
 		return taille;
 	}
 
+	/*********************************************************************************/
+	/*
+	 * 
+	 * 
+	 */
+	/*********************************************************************************/
 	public void setTaille(int taille) {
 		this.taille = taille;
 	}
+
 }

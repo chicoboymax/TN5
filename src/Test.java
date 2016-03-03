@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -12,10 +13,15 @@ import java.util.Scanner;
  */
 
 public class Test {
-
 	static Scanner sc = new Scanner(System.in);
+	static int[][] grille = { { 0, 6, 0, 1, 0, 4, 0, 5, 0 },
+			{ 0, 0, 8, 3, 0, 5, 6, 0, 0 }, { 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+			{ 8, 0, 0, 4, 0, 7, 0, 0, 6 }, { 0, 0, 6, 0, 0, 0, 3, 0, 0 },
+			{ 7, 0, 0, 9, 0, 1, 0, 0, 4 }, { 5, 0, 0, 0, 0, 0, 0, 0, 2 },
+			{ 0, 0, 7, 2, 0, 6, 9, 0, 0 }, { 0, 4, 0, 5, 0, 8, 0, 7, 0 } };
 
 	public static void main(String[] args) {
+
 		validerChoix(1, 2, 3);
 
 	}
@@ -28,17 +34,6 @@ public class Test {
 	/*********************************************************************************/
 	public void chargerJeu(String cheminDuFicher) throws IOException {
 
-		int[][] tab1 = new int[9][9];
-
-		try (Scanner scanner = new Scanner(new File(cheminDuFicher))) {
-			while (scanner.hasNextInt()) {
-				int x = scanner.nextInt();
-				int y = scanner.nextInt();
-				int z = scanner.nextInt();
-				tab1[x][y] = z;
-			}
-			return;
-		}
 	}
 
 	/*********************************************************************************/
@@ -50,23 +45,6 @@ public class Test {
 	public static void sauvegarderJeu(int[][] tab1, String cheminDuFichier)
 			throws IOException {
 
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(
-				new File(cheminDuFichier)))) {
-			for (int i = 0; i < tab1.length; i++) {
-				for (int j = 0; j < tab1[i].length; j++) {
-					if (tab1[i][j] != 0) {
-						writer.write(String.valueOf(i));
-						writer.write(" ");
-						writer.write(String.valueOf(j));
-						writer.write(" ");
-						writer.write(String.valueOf(tab1[i][j]));
-						writer.write(" ");
-					}
-				}
-
-			}
-		}
-
 	}
 
 	/*********************************************************************************/
@@ -76,6 +54,13 @@ public class Test {
 	 */
 	/*********************************************************************************/
 	public static void jouerSudoku() {
+		Grille sudoku = new Grille(Grille.grilleToArrayList(grille));
+		do {
+		int ligne = obtenirNombrePlusPetitQue(8, "ligne");
+		int colonne = obtenirNombrePlusPetitQue(8, "colonne");
+		int valeur = obtenirNombrePlusPetitQue(9, "valeur");
+		sudoku.fairePlacement(valeur, ligne, colonne);
+		} while (jouerEncore("Désirez-vous jouer encore ?"));
 
 	}
 
@@ -85,35 +70,69 @@ public class Test {
 	 * 
 	 */
 	/*********************************************************************************/
-	public static int ObtenirUnNombre(int inf, int sup) {
+	public static boolean jouerEncore(String jouerEncore) {
 		while (true) {
-			int nombre = 0;
-			System.out
-					.println("*************sudoku***************************......");
-			System.out
-					.println("Bienvenue dans le programme de Sudoku, ce programme ...");
-			System.out.println(" ");
-			System.out.println("Veuillez choisir un des choix suivants:");
-			System.out.println("1. Charger jeu.");
-			System.out.println("2. Jouer Sudoku.");
-			System.out.println("3. Quitter.");
-			do {
-				if (!sc.hasNextInt()) {
-					// Si le nombre n'est pas un entier affiche un message
-					System.out.print("Vous devez entrer un nombre entier. ");
-					sc.next();
-				} else {
-					nombre = sc.nextInt();
-					// si le nombre n'est pas dans l'interval affiche un message
-					if (nombre < inf || nombre > sup) {
-						System.out.println("Vous devez entrer 1,2 ou 3. ");
-					} else
-						// Retourne le nombre
-						return nombre;
-				}
-				// Répète la boucle tant que le nombre n'est pas dans l'interval
-			} while (nombre < inf || nombre > sup);
+			String choix;
+			System.out.println(jouerEncore);
+			choix = sc.next();
+			if (choix.equalsIgnoreCase("y"))
+				return true;
+			else if (choix.equalsIgnoreCase("n"))
+				return false;
 		}
+	}
+
+	/*********************************************************************************/
+	/*
+	 * 
+	 * 
+	 */
+	/*********************************************************************************/
+	public static int obtenirNombrePlusPetitQue(int sup, String rowColVal) {
+		final String message = "Entrez un chiffre pour la " + rowColVal
+				+ ", il doit être compris entre 0 et " + sup + ".";
+		final String message1 = "Veuillez choisir une " + rowColVal + ":";
+		int nombre = 0;
+		do {
+			System.out.println(message1);
+			try {
+				nombre = sc.nextInt();
+				if (nombre < 0 || nombre > sup) {
+					System.out.println(message);
+				}
+
+			} catch (InputMismatchException e) {
+				System.out.println(message);
+				sc.next();
+				obtenirNombrePlusPetitQue(sup, rowColVal);
+			}
+		} while (nombre < 0 || nombre > sup);
+		return nombre;
+	}
+
+	/*********************************************************************************/
+	/*
+	 * 
+	 * 
+	 */
+	/*********************************************************************************/
+	public static int ObtenirUnNombre(int inf, int sup) {
+		final String message = "Vous devez entrer un nombre compris entre "
+				+ inf + " et " + sup + ".";
+		int nombre = 0;
+		do {
+			try {
+				nombre = sc.nextInt();
+				if (nombre < inf || nombre > sup) {
+					System.out.println(message);
+				}
+
+			} catch (InputMismatchException e) {
+				System.out.println(message);
+				sc.next();
+			}
+		} while (nombre < inf || nombre > sup);
+		return nombre;
 	}
 
 	/*********************************************************************************/
@@ -125,6 +144,15 @@ public class Test {
 	public static void validerChoix(int inf, int mid, int sup) {
 		final String VOTRE_CHOIX = "Votre choix: ";
 		int nombre;
+		System.out
+				.println("*************sudoku***************************......");
+		System.out
+				.println("Bienvenue dans le programme de Sudoku, ce programme ...");
+		System.out.println(" ");
+		System.out.println("Veuillez choisir un des choix suivants:");
+		System.out.println("1. Charger jeu.");
+		System.out.println("2. Jouer Sudoku.");
+		System.out.println("3. Quitter.");
 
 		nombre = ObtenirUnNombre(inf, sup);
 
