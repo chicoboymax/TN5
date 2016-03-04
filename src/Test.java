@@ -1,7 +1,12 @@
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -22,7 +27,7 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		validerChoix(1, 2, 3);
+		menuInitial(1, 2, 3);
 
 	}
 
@@ -42,8 +47,30 @@ public class Test {
 	 * 
 	 */
 	/*********************************************************************************/
-	public static void sauvegarderJeu(int[][] tab1, String cheminDuFichier)
-			throws IOException {
+	public static void sauvegarderJeu(String cheminDuFichier) {
+		ArrayList<Case> al = Grille.grilleToArrayList();
+		File fichier = new File(cheminDuFichier);
+		PrintWriter sortie = null;
+
+		try {
+			sortie = new PrintWriter(
+					new BufferedWriter(new FileWriter(fichier)));
+			for (Case placement : al) {
+				if (placement.getValeur() != 0) {
+					sortie.print(placement.getLigne());
+					sortie.print(placement.getColonne());
+					sortie.print(placement.getValeur());
+					sortie.print("\t");
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (sortie != null) {
+				sortie.close();
+			}
+		}
 
 	}
 
@@ -56,12 +83,11 @@ public class Test {
 	public static void jouerSudoku() {
 		Grille sudoku = new Grille(Grille.grilleToArrayList(grille));
 		do {
-		int ligne = obtenirNombrePlusPetitQue(8, "ligne");
-		int colonne = obtenirNombrePlusPetitQue(8, "colonne");
-		int valeur = obtenirNombrePlusPetitQue(9, "valeur");
-		sudoku.fairePlacement(valeur, ligne, colonne);
-		} while (jouerEncore("Désirez-vous jouer encore ?"));
-
+			int ligne = obtenirNombrePlusPetitQue(8, "ligne");
+			int colonne = obtenirNombrePlusPetitQue(8, "colonne");
+			int valeur = obtenirNombrePlusPetitQue(9, "valeur");
+			sudoku.fairePlacement(valeur, ligne, colonne);
+		} while (menuSecondaire(1, 2, 3));
 	}
 
 	/*********************************************************************************/
@@ -70,15 +96,31 @@ public class Test {
 	 * 
 	 */
 	/*********************************************************************************/
-	public static boolean jouerEncore(String jouerEncore) {
+	public static boolean menuSecondaire(int inf, int mid, int sup) {
 		while (true) {
-			String choix;
-			System.out.println(jouerEncore);
-			choix = sc.next();
-			if (choix.equalsIgnoreCase("y"))
-				return true;
-			else if (choix.equalsIgnoreCase("n"))
-				return false;
+			final String VOTRE_CHOIX = "Votre choix: ";
+			int nombre;
+			System.out.println("Veuillez choisir un des choix suivants:");
+			System.out.println("1. Sauvegarder jeu.");
+			System.out.println("2. Jouer Sudoku.");
+			System.out.println("3. Quitter.");
+
+			nombre = ObtenirUnNombre(inf, sup);
+
+			if (nombre == inf) {
+				System.out.println(VOTRE_CHOIX + inf);
+				System.out.println("Veuillez fournir le nom du fichier:");
+				String nomFichier = sc.next();
+				sauvegarderJeu(nomFichier);
+			} else if (nombre == mid) {
+				System.out.println(VOTRE_CHOIX + mid);
+				jouerSudoku();
+			} else {
+				System.out.println(VOTRE_CHOIX + sup);
+				System.out.println("Merci d’avoir joué au jeu sudoku.");
+				System.exit(0);
+			}
+
 		}
 	}
 
@@ -141,7 +183,7 @@ public class Test {
 	 * 
 	 */
 	/*********************************************************************************/
-	public static void validerChoix(int inf, int mid, int sup) {
+	public static void menuInitial(int inf, int mid, int sup) {
 		final String VOTRE_CHOIX = "Votre choix: ";
 		int nombre;
 		System.out
