@@ -12,7 +12,6 @@ public class Grille {
 	private int[][] grid;
 	private int taille;
 
-
 	/*********************************************************************************/
 	/*
 	 * 
@@ -60,13 +59,11 @@ public class Grille {
 		for (int i = 0; i < grid[ligne].length; i++) {
 			if (grid[ligne][i] == valeur) {
 				surLigne = true;
+				System.out.println("Erreur, la grille comporte déjà la valeur "
+						+ valeur + " sur cette ligne.");
 			}
 		}
-		if (surLigne == true) {
-			System.out.println("La valeur est sur la ligne.");
-		}
 		return surLigne;
-
 	}
 
 	/*********************************************************************************/
@@ -80,10 +77,9 @@ public class Grille {
 		for (int i = 0; i < grid[colonne].length; i++) {
 			if (grid[i][colonne] == valeur) {
 				surColonne = true;
+				System.out.println("Erreur, la grille comporte déjà la valeur "
+						+ valeur + " sur cette colonne.");
 			}
-		}
-		if (surColonne == true) {
-			System.out.println("La valeur est sur la colonne.");
 		}
 		return surColonne;
 	}
@@ -95,7 +91,23 @@ public class Grille {
 	 */
 	/*********************************************************************************/
 	public boolean estDansLeBloc(int valeur, int ligne, int colonne) {
-		return grid[ligne][colonne] == valeur;
+		boolean dansLeBloc = false;
+		int x1 = 3 * (ligne / 3);
+		int y1 = 3 * (colonne / 3);
+		int x2 = x1 + 2;
+		int y2 = y1 + 2;
+		for (int x = x1; x <= x2; x++) {
+			for (int y = y1; y <= y2; y++) {
+				if (grid[x][y] == valeur){
+					dansLeBloc = true;
+				System.out.println("Erreur, la grille comporte déjà la valeur "
+						+ valeur + " dans le bloc représentant la case ("
+						+ ligne + "," + colonne + ").");
+				}
+			}
+
+		}
+		return dansLeBloc;
 	}
 
 	/*********************************************************************************/
@@ -105,12 +117,12 @@ public class Grille {
 	 */
 	/*********************************************************************************/
 	public boolean validerPlacement(int valeur, int ligne, int colonne) {
-		if (estSurLigne(valeur, ligne) || estSurColonne(valeur, colonne)
-				|| estDansLeBloc(valeur, ligne, colonne)) {
-			return false;
-		} else {
-			return true;
+		boolean placementValide = true;
+		if (estDansLeBloc(valeur, ligne, colonne) || estSurLigne(valeur, ligne)
+				|| estSurColonne(valeur, colonne)) {
+			placementValide = false;
 		}
+		return placementValide;
 	}
 
 	/*********************************************************************************/
@@ -122,22 +134,28 @@ public class Grille {
 	public void imprimerGrille() {
 		final String ligne = "------------------------\n";
 		StringBuilder sb = new StringBuilder();
+
 		sb.append(ligne);
 		for (int i = 0; i < grid.length; i++) {
 			if (i == 3 || i == 6) {
 				sb.append(ligne);
 			}
+
 			if (i < 9) {
 				sb.append("|");
 			}
+
 			for (int j = 0; j < grid[i].length; j += 3) {
 				for (int kj = j; kj < j + 3; kj += 1) {
-					if (grid[i][kj] != 0) {
+					if (grid[i][kj] != 0)
+
 						sb.append(grid[i][kj]);
-					} else {
+					else
+
 						sb.append(" ");
-						sb.append(" ");
-					}
+
+					sb.append(" ");
+
 				}
 				if (j < 9) {
 					sb.append("| ");
@@ -165,6 +183,7 @@ public class Grille {
 		if (validerPlacement(valeur, ligne, colonne)) {
 			this.grid[ligne][colonne] = valeur;
 		}
+		imprimerGrille();
 	}
 
 	/*********************************************************************************/
