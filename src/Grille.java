@@ -5,11 +5,6 @@
  * @author Maxime Drouin
  */
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Grille {
@@ -24,14 +19,13 @@ public class Grille {
 	 */
 	/*********************************************************************************/
 	public Grille(ArrayList<Case> al) {
-		this.setTaille(al.size());
+		this.setTaille(9);
 		this.grid = new int[taille][taille];
 		for (Case i : al) {
 			int ligne = i.getLigne();
 			int colonne = i.getColonne();
 			int valeur = i.getValeur();
 			grid[ligne][colonne] = valeur;
-
 		}
 	}
 
@@ -137,6 +131,7 @@ public class Grille {
 	 */
 	/*********************************************************************************/
 	public void imprimerGrille() {
+		int[][] grid = this.grid;
 		final String ligne = "------------------------\n";
 		StringBuilder sb = new StringBuilder();
 
