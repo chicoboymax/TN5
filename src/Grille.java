@@ -180,10 +180,15 @@ public class Grille {
 	/*********************************************************************************/
 
 	public void fairePlacement(int valeur, int ligne, int colonne) {
+		ligne -=1;
+		colonne-=1;
 		if (validerPlacement(valeur, ligne, colonne)) {
 			this.grid[ligne][colonne] = valeur;
+			ligne +=1;
+			colonne+=1;
+			System.out.println("Bravo! La valeur " + valeur + " a été insérée dans la case (" + ligne + "," + colonne + ").");
 		}
-		imprimerGrille();
+		
 	}
 
 	/*********************************************************************************/

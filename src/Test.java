@@ -72,9 +72,6 @@ public class Test {
 		ArrayList<Case> al = lireFichier(br);
 		Grille sudoku = new Grille(al);
 		System.out.println("Fichier chargé! \n");
-		System.out
-				.println("-------------------------------------------------------------------------------");
-		sudoku.imprimerGrille();
 		return sudoku;
 	}
 
@@ -176,7 +173,6 @@ public class Test {
 	 */
 	/*********************************************************************************/
 	public static void jouerSudoku(Grille sudoku) {
-		sudoku.imprimerGrille();
 		int ligne = obtenirNombrePlusPetitQue(8, "ligne");
 		int colonne = obtenirNombrePlusPetitQue(8, "colonne");
 		int valeur = obtenirNombrePlusPetitQue(9, "valeur");
@@ -191,7 +187,11 @@ public class Test {
 	/*********************************************************************************/
 	public static boolean menuSecondaire(int inf, int mid, int sup,
 			Grille sudoku) {
+		
 		while (true) {
+			System.out
+			.println("\n-------------------------------------------------------------------------------");
+			sudoku.imprimerGrille();
 			final String VOTRE_CHOIX = "Votre choix: ";
 			int nombre;
 			System.out.println("Veuillez choisir un des choix suivants:");
