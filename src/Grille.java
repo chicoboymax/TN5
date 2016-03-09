@@ -10,7 +10,9 @@ import java.util.ArrayList;
 public class Grille {
 
 	private int[][] grid;
-	private int taille;
+	
+
+	final int TAILLE = 9;
 
 	/*********************************************************************************/
 	/*
@@ -19,8 +21,7 @@ public class Grille {
 	 */
 	/*********************************************************************************/
 	public Grille(ArrayList<Case> al) {
-		this.setTaille(9);
-		this.grid = new int[taille][taille];
+		this.grid = new int[TAILLE][TAILLE];
 		for (Case i : al) {
 			int ligne = i.getLigne();
 			int colonne = i.getColonne();
@@ -58,6 +59,7 @@ public class Grille {
 		for (int i = 0; i < grid[ligne].length; i++) {
 			if (grid[ligne][i] == valeur) {
 				surLigne = true;
+				ligne +=1;
 				System.out.println("Erreur, la grille comporte dÃ©jÃ  la valeur "
 						+ valeur + " sur cette ligne.");
 			}
@@ -76,6 +78,7 @@ public class Grille {
 		for (int i = 0; i < grid[colonne].length; i++) {
 			if (grid[i][colonne] == valeur) {
 				surColonne = true;
+				colonne+=1;
 				System.out.println("Erreur, la grille comporte dÃ©jÃ  la valeur "
 						+ valeur + " sur cette colonne.");
 			}
@@ -99,6 +102,8 @@ public class Grille {
 			for (int y = y1; y <= y2; y++) {
 				if (grid[x][y] == valeur){
 					dansLeBloc = true;
+					ligne +=1;
+					colonne+=1;
 				System.out.println("Erreur, la grille comporte dÃ©jÃ  la valeur "
 						+ valeur + " dans le bloc reprÃ©sentant la case ("
 						+ ligne + "," + colonne + ").");
@@ -186,30 +191,17 @@ public class Grille {
 			this.grid[ligne][colonne] = valeur;
 			ligne +=1;
 			colonne+=1;
-			System.out.println("Bravo! La valeur " + valeur + " a été insérée dans la case (" + ligne + "," + colonne + ").");
+			System.out.println("Bravo! La valeur " + valeur + " a ï¿½tï¿½ insï¿½rï¿½e dans la case (" + ligne + "," + colonne + ").");
 		}
 		
 	}
-
-	/*********************************************************************************/
-	/*
-	 * 
-	 * 
-	 */
-	/*********************************************************************************/
-
-	public int getTaille() {
-		return taille;
+	
+	
+	public int[][] getGrid() {
+		return grid;
 	}
 
-	/*********************************************************************************/
-	/*
-	 * 
-	 * 
-	 */
-	/*********************************************************************************/
-	public void setTaille(int taille) {
-		this.taille = taille;
+	public void setGrid(int[][] grid) {
+		this.grid = grid;
 	}
-
 }

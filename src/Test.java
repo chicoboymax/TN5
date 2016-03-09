@@ -60,6 +60,45 @@ public class Test {
 			System.exit(0);
 		}
 	}
+	
+	/*********************************************************************************/
+	/*
+	 * 
+	 * 
+	 */
+	/*********************************************************************************/
+	public static boolean menuSecondaire(int inf, int mid, int sup,
+			Grille sudoku) {
+		
+		while (true) {
+			System.out
+			.println("\n-------------------------------------------------------------------------------");
+			sudoku.imprimerGrille();
+			final String VOTRE_CHOIX = "Votre choix: ";
+			int nombre;
+			System.out.println("Veuillez choisir un des choix suivants:");
+			System.out.println("1. Sauvegarder jeu.");
+			System.out.println("2. Jouer Sudoku.");
+			System.out.println("3. Quitter.");
+
+			nombre = ObtenirUnNombre(inf, sup);
+
+			if (nombre == inf) {
+				System.out.println(VOTRE_CHOIX + inf);
+				System.out.println("Veuillez fournir le nom du fichier:");
+				String nomFichier = sc.next();
+				sauvegarderJeu(nomFichier,sudoku.getGrid());
+			} else if (nombre == mid) {
+				System.out.println(VOTRE_CHOIX + mid);
+				jouerSudoku(sudoku);
+			} else {
+				System.out.println(VOTRE_CHOIX + sup);
+				System.out.println("Merci d’avoir joué au jeu sudoku.");
+				System.exit(0);
+			}
+
+		}
+	}
 
 	/*********************************************************************************/
 	/*
@@ -113,7 +152,7 @@ public class Test {
 		try {
 			line = fluxEntree.readLine();
 		} catch (IOException e) {
-			System.out.println("erreur de I/O");
+			System.out.println("Erreur de lecture");
 			System.exit(0);
 		}
 		if (line == null) {
@@ -139,8 +178,8 @@ public class Test {
 	 * 
 	 */
 	/*********************************************************************************/
-	public static void sauvegarderJeu(String cheminDuFichier) {
-		ArrayList<Case> al = Grille.grilleToArrayList(grille);
+	public static void sauvegarderJeu(String cheminDuFichier, int[][] grid) {
+		ArrayList<Case> al = Grille.grilleToArrayList(grid);
 		File fichier = new File(cheminDuFichier);
 		PrintWriter sortie = null;
 
@@ -152,11 +191,12 @@ public class Test {
 					sortie.print(placement.getLigne());
 					sortie.print(placement.getColonne());
 					sortie.print(placement.getValeur());
-					sortie.print("\t");
+					sortie.print(" ");
 				}
 			}
-
+			System.out.println("Fichier sauvegardé!");
 		} catch (IOException e) {
+			System.out.println("Erreur de sauvegarde");
 			e.printStackTrace();
 		} finally {
 			if (sortie != null) {
@@ -173,50 +213,13 @@ public class Test {
 	 */
 	/*********************************************************************************/
 	public static void jouerSudoku(Grille sudoku) {
-		int ligne = obtenirNombrePlusPetitQue(8, "ligne");
-		int colonne = obtenirNombrePlusPetitQue(8, "colonne");
-		int valeur = obtenirNombrePlusPetitQue(9, "valeur");
+		int ligne = obtenirNombrePlusPetitOuEgalA(8, "ligne");
+		int colonne = obtenirNombrePlusPetitOuEgalA(8, "colonne");
+		int valeur = obtenirNombrePlusPetitOuEgalA(9, "valeur");
 		sudoku.fairePlacement(valeur, ligne, colonne);
 	}
 
-	/*********************************************************************************/
-	/*
-	 * 
-	 * 
-	 */
-	/*********************************************************************************/
-	public static boolean menuSecondaire(int inf, int mid, int sup,
-			Grille sudoku) {
-		
-		while (true) {
-			System.out
-			.println("\n-------------------------------------------------------------------------------");
-			sudoku.imprimerGrille();
-			final String VOTRE_CHOIX = "Votre choix: ";
-			int nombre;
-			System.out.println("Veuillez choisir un des choix suivants:");
-			System.out.println("1. Sauvegarder jeu.");
-			System.out.println("2. Jouer Sudoku.");
-			System.out.println("3. Quitter.");
-
-			nombre = ObtenirUnNombre(inf, sup);
-
-			if (nombre == inf) {
-				System.out.println(VOTRE_CHOIX + inf);
-				System.out.println("Veuillez fournir le nom du fichier:");
-				String nomFichier = sc.next();
-				sauvegarderJeu(nomFichier);
-			} else if (nombre == mid) {
-				System.out.println(VOTRE_CHOIX + mid);
-				jouerSudoku(sudoku);
-			} else {
-				System.out.println(VOTRE_CHOIX + sup);
-				System.out.println("Merci d’avoir joué au jeu sudoku.");
-				System.exit(0);
-			}
-
-		}
-	}
+	
 
 	/*********************************************************************************/
 	/*
@@ -224,7 +227,7 @@ public class Test {
 	 * 
 	 */
 	/*********************************************************************************/
-	public static int obtenirNombrePlusPetitQue(int sup, String rowColVal) {
+	public static int obtenirNombrePlusPetitOuEgalA(int sup, String rowColVal) {
 		final String message = "Entrez un chiffre pour la " + rowColVal
 				+ ", il doit être compris entre 0 et " + sup + ".";
 		final String message1 = "Veuillez choisir une " + rowColVal + ":";
@@ -240,7 +243,7 @@ public class Test {
 			} catch (InputMismatchException e) {
 				System.out.println(message);
 				sc.next();
-				obtenirNombrePlusPetitQue(sup, rowColVal);
+				obtenirNombrePlusPetitOuEgalA(sup, rowColVal);
 			}
 		} while (nombre < 0 || nombre > sup);
 		return nombre;
