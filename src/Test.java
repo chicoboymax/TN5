@@ -28,7 +28,16 @@ public class Test {
 			{ 0, 0, 0, 0, 5, 0, 4, 0, 0 }, { 5, 0, 4, 0, 0, 1, 2, 6, 0 } };
 
 	public static void main(String[] args) {
+		menuPrincipal();
+	}
 
+	/*********************************************************************************/
+	/*
+	 * 
+	 * 
+	 */
+	/*********************************************************************************/
+	public static void menuPrincipal() {
 		final String VOTRE_CHOIX = "Votre choix: ";
 		int nombre;
 
@@ -60,7 +69,7 @@ public class Test {
 			System.exit(0);
 		}
 	}
-	
+
 	/*********************************************************************************/
 	/*
 	 * 
@@ -69,10 +78,10 @@ public class Test {
 	/*********************************************************************************/
 	public static boolean menuSecondaire(int inf, int mid, int sup,
 			Grille sudoku) {
-		
+
 		while (true) {
 			System.out
-			.println("\n-------------------------------------------------------------------------------");
+					.println("\n-------------------------------------------------------------------------------");
 			sudoku.imprimerGrille();
 			final String VOTRE_CHOIX = "Votre choix: ";
 			int nombre;
@@ -87,7 +96,7 @@ public class Test {
 				System.out.println(VOTRE_CHOIX + inf);
 				System.out.println("Veuillez fournir le nom du fichier:");
 				String nomFichier = sc.next();
-				sauvegarderJeu(nomFichier,sudoku.getGrid());
+				sauvegarderJeu(nomFichier, sudoku.getGrid());
 			} else if (nombre == mid) {
 				System.out.println(VOTRE_CHOIX + mid);
 				jouerSudoku(sudoku);
@@ -213,13 +222,11 @@ public class Test {
 	 */
 	/*********************************************************************************/
 	public static void jouerSudoku(Grille sudoku) {
-		int ligne = obtenirNombrePlusPetitOuEgalA(8, "ligne");
-		int colonne = obtenirNombrePlusPetitOuEgalA(8, "colonne");
+		int ligne = obtenirNombrePlusPetitOuEgalA(9, "ligne");
+		int colonne = obtenirNombrePlusPetitOuEgalA(9, "colonne");
 		int valeur = obtenirNombrePlusPetitOuEgalA(9, "valeur");
 		sudoku.fairePlacement(valeur, ligne, colonne);
 	}
-
-	
 
 	/*********************************************************************************/
 	/*
@@ -236,7 +243,7 @@ public class Test {
 			System.out.println(message1);
 			try {
 				nombre = sc.nextInt();
-				if (nombre < 0 || nombre > sup) {
+				if (nombre < 1 || nombre > sup) {
 					System.out.println(message);
 				}
 
@@ -245,7 +252,7 @@ public class Test {
 				sc.next();
 				obtenirNombrePlusPetitOuEgalA(sup, rowColVal);
 			}
-		} while (nombre < 0 || nombre > sup);
+		} while (nombre < 1 || nombre > sup);
 		return nombre;
 	}
 
