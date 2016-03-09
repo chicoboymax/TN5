@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -21,11 +22,14 @@ public class Test {
 
 	// Grille utilisée si le joueur choisi l'option jouerSudoku avant d'avoir
 	// chargé le jeu
-	static int[][] grille = { { 0, 4, 3, 7, 0, 0, 9, 0, 8 },
-			{ 0, 0, 5, 0, 3, 0, 0, 0, 0 }, { 0, 1, 0, 0, 0, 0, 3, 0, 0 },
-			{ 6, 0, 0, 0, 2, 7, 0, 0, 0 }, { 4, 0, 7, 0, 0, 0, 1, 0, 3 },
-			{ 0, 0, 0, 5, 4, 0, 0, 0, 9 }, { 0, 0, 2, 0, 0, 0, 0, 3, 0 },
-			{ 0, 0, 0, 0, 5, 0, 4, 0, 0 }, { 5, 0, 4, 0, 0, 1, 2, 6, 0 } };
+	public static int[][] initialiserGrille(){
+		int[][] grille = new int[9][9];
+		for (int i=0;i<grille.length;i++){
+			Arrays.fill(grille[i], 0);
+		}
+		return grille;
+	}
+	
 
 	public static void main(String[] args) {
 		menuPrincipal();
@@ -40,7 +44,7 @@ public class Test {
 	public static void menuPrincipal() {
 		final String VOTRE_CHOIX = "Votre choix: ";
 		int nombre;
-
+ 
 		System.out
 				.println("*************sudoku***************************......");
 		System.out
@@ -60,7 +64,7 @@ public class Test {
 
 		} else if (nombre == 2) {
 			System.out.println(VOTRE_CHOIX + 2);
-			Grille sudoku = new Grille(Grille.grilleToArrayList(grille));
+			Grille sudoku = new Grille(Grille.grilleToArrayList(initialiserGrille()));
 
 			jouerSudoku(sudoku);
 		} else {
