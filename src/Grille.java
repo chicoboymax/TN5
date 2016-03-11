@@ -16,8 +16,8 @@ public class Grille {
 
 	/*********************************************************************************/
 	/*
-	 * 
-	 * 
+	 * Constructeur de grille.
+	 * @param al - Un ArrayList contenant les coordonnées et valeurs des cases.
 	 */
 	/*********************************************************************************/
 	public Grille(ArrayList<Case> al) {
@@ -31,9 +31,10 @@ public class Grille {
 	}
 
 	/*********************************************************************************/
-	/*
+	/* Permet de convertir une grille de Sudoku en ArrayList.
 	 * 
-	 * 
+	 * @param grille - Une grille de sudoku.
+	 * @return al - Un ArrayList contenant les coordonnées et valeurs des cases.
 	 */
 	/*********************************************************************************/
 	public static ArrayList<Case> grilleToArrayList(int[][] grille) {
@@ -49,9 +50,10 @@ public class Grille {
 	}
 
 	/*********************************************************************************/
-	/*
-	 * 
-	 * 
+	/*Vérifie si la valeur est déjà présente sur la ligne de la grille.
+	 * @param valeur - La valeur que l'on veut vérifier.
+	 * @param ligne - La ligne sur laquelle on veut effectuer la vérification.
+	 * @return boolean - Return true si la valeur est sur la ligne.
 	 */
 	/*********************************************************************************/
 	public boolean estSurLigne(int valeur, int ligne) {
@@ -69,7 +71,10 @@ public class Grille {
 
 	/*********************************************************************************/
 	/*
-	 * 
+	 * Vérifie si la valeur est déjà présente sur la colonne de la grille.
+	 * @param valeur - La valeur que l'on veut vérifier.
+	 * @param colonne - La colonne sur laquelle on veut effectuer la vérification.
+	 * @return boolean - Return true si la valeur est sur la colonne.
 	 * 
 	 */
 	/*********************************************************************************/
@@ -88,7 +93,11 @@ public class Grille {
 
 	/*********************************************************************************/
 	/*
-	 * 
+	 * Vérifie si la valeur est déjà présente dans le bloc de la grille.
+	 * @param valeur - La valeur que l'on veut vérifier.
+	 * @param ligne - La ligne sur laquelle est située la case.
+	 * @param colonne - La colonne sur laquelle est située la case.
+	 * @return boolean - Return true si la valeur est sur la ligne.
 	 * 
 	 */
 	/*********************************************************************************/
@@ -115,8 +124,11 @@ public class Grille {
 	}
 
 	/*********************************************************************************/
-	/*
-	 * 
+	/* Permet de valider le placement en appellant toutes les méthodes de vérification.
+	 * @param valeur - La valeur à vérifier.
+	 * @param ligne - La ligne sur laquelle est située la case.
+	 * @param colonne - La colonne sur laquelle est située la case.
+	 * @return boolean - Retourne false si le placement n'est pas valide.
 	 * 
 	 */
 	/*********************************************************************************/
@@ -130,9 +142,7 @@ public class Grille {
 	}
 
 	/*********************************************************************************/
-	/*
-	 * 
-	 * 
+	/* Imprime la grille au format demandé en utlisant un StringBuilder.
 	 */
 	/*********************************************************************************/
 	public void imprimerGrille() {
@@ -145,22 +155,16 @@ public class Grille {
 			if (i == 3 || i == 6) {
 				sb.append(ligne);
 			}
-
 			if (i < 9) {
 				sb.append("|");
 			}
-
 			for (int j = 0; j < grid[i].length; j += 3) {
 				for (int kj = j; kj < j + 3; kj += 1) {
 					if (grid[i][kj] != 0)
-
 						sb.append(grid[i][kj]);
 					else
-
 						sb.append(" ");
-
 					sb.append(" ");
-
 				}
 				if (j < 9) {
 					sb.append("| ");
@@ -173,14 +177,14 @@ public class Grille {
 				sb.append(ligne);
 			}
 		}
-
 		System.out.println(sb);
 	}
 
 	/*********************************************************************************/
-	/*
-	 * 
-	 * 
+	/* Effectue le placement demandé dans la grille après avoir effectué la validation
+	 * @param valeur - La valeur que l'on veut placer dans la grille.
+	 * @param ligne - La ligne sur laquelle on veut placer la valeur.
+	 * @param colonne - La colonne sur laquelle on veut placer la valeur. 
 	 */
 	/*********************************************************************************/
 
@@ -191,16 +195,29 @@ public class Grille {
 			this.grid[ligne][colonne] = valeur;
 			ligne +=1;
 			colonne+=1;
-			System.out.println("Bravo! La valeur " + valeur + " a �t� ins�r�e dans la case (" + ligne + "," + colonne + ").");
+			System.out.println("Bravo! La valeur " + valeur + " a été insérée dans la case (" + ligne + "," + colonne + ").");
 		}
 		
 	}
 	
-	
+	/*********************************************************************************/
+	/*
+	 * Getter pour la grille de sudoku.
+	 * 
+	 * @return grid - La grille de sudoku.
+	 */
+	/*********************************************************************************/
 	public int[][] getGrid() {
 		return grid;
 	}
 
+	/*********************************************************************************/
+	/*
+	 * Setter pour la grille.
+	 * 
+	 * @param grille - La grille.
+	 */
+	/*********************************************************************************/
 	public void setGrid(int[][] grid) {
 		this.grid = grid;
 	}
