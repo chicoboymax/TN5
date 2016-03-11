@@ -14,9 +14,11 @@ public class Case {
 
 	
 	/*********************************************************************************/
-	/*
+	/* Constructeur de Case
 	 * 
-	 * 
+	 * @param ligne - La ligne de la case
+	 * @param colonne - La colonne de la case
+	 * @param valeur - La valeur de la case
 	 */
 	/*********************************************************************************/
 	public Case(int ligne, int colonne, int valeur) {
@@ -26,9 +28,8 @@ public class Case {
 	}
 
 	/*********************************************************************************/
-	/*
-	 * 
-	 * 
+	/* Getter pour la ligne
+	 * @return ligne - La ligne 
 	 */
 	/*********************************************************************************/
 	public int getLigne() {
@@ -37,8 +38,8 @@ public class Case {
 
 	/*********************************************************************************/
 	/*
-	 * 
-	 * 
+	 * Setter pour la ligne
+	 * @param ligne - La ligne 
 	 */
 	/*********************************************************************************/
 	public void setLigne(int ligne) {
@@ -47,8 +48,8 @@ public class Case {
 
 	/*********************************************************************************/
 	/*
-	 * 
-	 * 
+	 * Getter pour la colonne
+	 * @return colonne - La colonne 
 	 */
 	/*********************************************************************************/
 	public int getColonne() {
@@ -57,8 +58,8 @@ public class Case {
 
 	/*********************************************************************************/
 	/*
-	 * 
-	 * 
+	 * Setter pour la colonne
+	 * @param colonne - La colonne 
 	 */
 	/*********************************************************************************/
 	public void setColonne(int colonne) {
@@ -67,8 +68,8 @@ public class Case {
 
 	/*********************************************************************************/
 	/*
-	 * 
-	 * 
+	 * Getter pour la valeur
+	 * @return valeur - La valeur 
 	 */
 	/*********************************************************************************/
 	public int getValeur() {
@@ -77,8 +78,8 @@ public class Case {
 
 	/*********************************************************************************/
 	/*
-	 * 
-	 * 
+	 * Setter pour la valeur
+	 * @param valeur - La valeur 
 	 */
 	/*********************************************************************************/
 	public void setValeur(int valeur) {

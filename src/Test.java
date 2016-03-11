@@ -244,34 +244,43 @@ public class Test {
 	}
 
 	/*********************************************************************************/
-	/*
+	/* Sauvegarde la partie courante au format texte
 	 * 
-	 * 
+	 * @param grid - Une grille de sudoku
 	 */
 	/*********************************************************************************/
 	public static void sauvegarderJeu(int[][] grid) {
 		System.out.println("Veuillez fournir le nom du fichier:");
 		String cheminDuFichier = sc.next();
+		// Transforme la grille en ArrayList de Cases
 		ArrayList<Case> al = Grille.grilleToArrayList(grid);
+		// Créer le fichier
 		File fichier = new File(cheminDuFichier);
 		PrintWriter sortie = null;
 
 		try {
+			// Créer un PrintWriter à partir d'un BufferedWriter
 			sortie = new PrintWriter(
 					new BufferedWriter(new FileWriter(fichier)));
+			// Pour chaque entrée de l'ArrayList
 			for (Case placement : al) {
+				// Si la valeur du placement est différente de 0
 				if (placement.getValeur() != 0) {
+					// Imprime la ligne, la colonne et la valeur suivi d'un espace.
 					sortie.print(placement.getLigne());
 					sortie.print(placement.getColonne());
 					sortie.print(placement.getValeur());
 					sortie.print(" ");
 				}
 			}
+			// Affiche le message de confirmation du fichier sauvegardé
 			System.out.println("Fichier sauvegardé!");
 		} catch (IOException e) {
+			// Si erreur de sauvegarde affiche ce message.
 			System.out.println("Erreur de sauvegarde");
 			e.printStackTrace();
 		} finally {
+			// Finalement ferme "sortie" si pas nul
 			if (sortie != null) {
 				sortie.close();
 			}
@@ -280,9 +289,10 @@ public class Test {
 	}
 
 	/*********************************************************************************/
-	/*
+	/* Demande au joueur 1 ligne, 1 colonne et 1 valeur et ensuite appelle la
+	 * méthode fairePlacement pour placer ces valeurs dans la grille.
 	 * 
-	 * 
+	 * @param sudoku - Une instance de jeu
 	 */
 	/*********************************************************************************/
 	public static void jouerSudoku(Grille sudoku) {
@@ -293,9 +303,12 @@ public class Test {
 	}
 
 	/*********************************************************************************/
-	/*
+	/* Demande au joueur d'entrer une valeur et valide que celle=ci est contenu 
+	 * dans l'interval voulu. Lance une exception InputMismatchException si la 
+	 * valeur n'est pas un integer.
 	 * 
-	 * 
+	 * @param sup - La valeur maximale du chiffre.
+	 * @param rowColVal - Le type de valeur demandé
 	 */
 	/*********************************************************************************/
 	public static int obtenirNombrePlusPetitOuEgalA(int sup, String rowColVal) {
@@ -321,9 +334,11 @@ public class Test {
 	}
 
 	/*********************************************************************************/
-	/*
+	/* Demande une valeur qui doit être comprise dans l'interval donné. Lance une exception 
+	 * InputMismatchException si la valeur n'est pas un integer.
 	 * 
-	 * 
+	 * @param inf - Valeur minimal du chiffre
+	 * @param sup - Valeur maximal du chiffre
 	 */
 	/*********************************************************************************/
 	public static int ObtenirUnNombre(int inf, int sup) {
